@@ -13,12 +13,12 @@ public class App {
         int n = scanner.nextInt();
         List<Item> items = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            int id = scanner.nextInt();
-            int profit = scanner.nextInt();
-            int weight = scanner.nextInt();
+            long id = scanner.nextLong();
+            long profit = scanner.nextLong();
+            long weight = scanner.nextLong();
             items.add(new Item(id, profit, weight));
         }
-        int capacity = scanner.nextInt();
+        long capacity = scanner.nextLong();
         scanner.close();
 
         // Create the knapsack and the solver
@@ -34,7 +34,7 @@ public class App {
 
         // Solve the problem using different methods and print the results
         long startTime = System.nanoTime();
-        int profit = solver.solveGreedy(knapsack);
+        long profit = solver.solveGreedy(knapsack);
         long endTime = System.nanoTime();
         System.out.println("The maximum profit using the greedy algorithm is " + profit);
         System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
@@ -45,10 +45,13 @@ public class App {
         System.out.println("The maximum profit using a random solution is " + profit);
         System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
 
+        /*
         startTime = System.nanoTime();
         profit = solver.solveDynamic(knapsack);
         endTime = System.nanoTime();
         System.out.println("The maximum profit using dynamic programming is " + profit);
         System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
+      */
     }
+
 }

@@ -16,19 +16,18 @@ public class KnapsackSolver {
      * @param knapsack The knapsack problem instance.
      * @return The maximum profit that can be obtained.
      */
-    public int solveDynamic(Knapsack knapsack) {
+    public long solveDynamic(Knapsack knapsack) {
         List<Item> items = knapsack.items();
-        int n = items.size();
-        int capacity = knapsack.capacity();
-        int[] dp = new int[capacity + 1];
+        long capacity = knapsack.capacity();
+        long[] dp = new long[(int) capacity + 1];
 
         for (Item item : items) {
-            for (int w = capacity; w >= item.weight(); w--) {
-                dp[w] = Math.max(dp[w], item.profit() + dp[w - item.weight()]);
+            for (long w = capacity; w >= item.weight(); w--) {
+                dp[(int) w] = Math.max(dp[(int) w], item.profit() + dp[(int)(w - item.weight())]);
             }
         }
 
-        return dp[capacity];
+        return dp[(int) capacity];
     }
     /**
      * This helper method calculates the maximum profit that can be obtained with the given items and the capacity of the knapsack.
@@ -39,8 +38,8 @@ public class KnapsackSolver {
      * @param capacity The capacity of the knapsack.
      * @return The maximum profit that can be obtained.
      */
-    private int solveWithGivenItems(List<Item> items, int capacity) {
-        int profit = 0;
+    private long solveWithGivenItems(List<Item> items, long capacity) {
+        long profit = 0;
         for (Item item : items) {
             if (item.weight() <= capacity) {
                 profit += item.profit();
@@ -58,7 +57,7 @@ public class KnapsackSolver {
      * @param knapsack The knapsack problem instance.
      * @return The maximum profit that can be obtained.
      */
-    public int solveGreedy(Knapsack knapsack) {
+    public long solveGreedy(Knapsack knapsack) {
         List<Item> items = new ArrayList<>(knapsack.items());
         items.sort(Comparator.comparingDouble(item -> -item.profit() / (double) item.weight()));
         return solveWithGivenItems(items, knapsack.capacity());
@@ -71,7 +70,7 @@ public class KnapsackSolver {
      * @param knapsack The knapsack problem instance.
      * @return The maximum profit that can be obtained.
      */
-    public int solveRandom(Knapsack knapsack) {
+    public long solveRandom(Knapsack knapsack) {
         List<Item> items = new ArrayList<>(knapsack.items());
         Collections.shuffle(items);
         return solveWithGivenItems(items, knapsack.capacity());

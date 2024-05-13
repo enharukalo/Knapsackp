@@ -1,4 +1,4 @@
 package edu.estu;
 
-public record Item(int id, int profit, int weight) {
+public record Item(long id, long profit, long weight) {
 }
