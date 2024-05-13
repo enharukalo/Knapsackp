@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class KnapsackSolver {
-    /**
+    /* TODO: Dynamic programming approach
      * This method solves the 0-1 knapsack problem using dynamic programming.
      * It iterates over each item and for each item, it iterates over all possible weights from the knapsack's capacity down to the item's weight.
      * For each weight, it calculates the maximum profit that can be obtained by either not including the current item or including it.
@@ -15,7 +15,6 @@ public class KnapsackSolver {
      *
      * @param knapsack The knapsack problem instance.
      * @return The maximum profit that can be obtained.
-     */
     public long solveDynamic(Knapsack knapsack) {
         List<Item> items = knapsack.items();
         long capacity = knapsack.capacity();
@@ -29,6 +28,7 @@ public class KnapsackSolver {
 
         return dp[(int) capacity];
     }
+     */
     /**
      * This helper method calculates the maximum profit that can be obtained with the given items and the capacity of the knapsack.
      * It iterates over the items and for each item, if the item's weight is less than or equal to the remaining capacity of the knapsack, it includes the item in the knapsack and decreases the remaining capacity by the item's weight.

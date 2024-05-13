@@ -45,13 +45,13 @@ public class App {
         System.out.println("The maximum profit using a random solution is " + profit);
         System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
 
-        /*
+        /* TODO: Dynamic programming approach
         startTime = System.nanoTime();
         profit = solver.solveDynamic(knapsack);
         endTime = System.nanoTime();
         System.out.println("The maximum profit using dynamic programming is " + profit);
         System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
-      */
+        */
     }
 
 }
