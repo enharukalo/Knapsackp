@@ -40,9 +40,27 @@ public class App {
         System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
 
         startTime = System.nanoTime();
+        profit = solver.solveGreedy2(knapsack);
+        endTime = System.nanoTime();
+        System.out.println("The maximum profit using the greedy algorithm (2) is " + profit);
+        System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
+
+        startTime = System.nanoTime();
         profit = solver.solveRandom(knapsack);
         endTime = System.nanoTime();
         System.out.println("The maximum profit using a random solution is " + profit);
+        System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
+
+        startTime = System.nanoTime();
+        profit = solver.solveRandom2(knapsack);
+        endTime = System.nanoTime();
+        System.out.println("The maximum profit using a random solution (2) is " + profit);
+        System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
+
+        startTime = System.nanoTime();
+        profit = solver.solveRandomWithMultipleSolutions(knapsack, 1000000);
+        endTime = System.nanoTime();
+        System.out.println("The maximum profit using 1000000 random solutions is " + profit);
         System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
 
         /* TODO: Dynamic programming approach
