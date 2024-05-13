@@ -1,48 +1,54 @@
 package edu.estu;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class App {
-    public static void main(String[] args) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("test.in"));
-             PrintWriter timeWriter = new PrintWriter(new FileWriter("time.out"))) {
-
-            int n = Integer.parseInt(reader.readLine());
-            List<Item> items = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                String[] line = reader.readLine().split(" ");
-                int id = Integer.parseInt(line[0]);
-                int profit = Integer.parseInt(line[1]);
-                int weight = Integer.parseInt(line[2]);
-                items.add(new Item(id, profit, weight));
-            }
-            int capacity = Integer.parseInt(reader.readLine());
-
-            // solve problem
-            Knapsack knapsack = new Knapsack(capacity, items);
-            KnapsackSolver solver = new KnapsackSolver();
-
-            long startTime = System.nanoTime();
-            int maxProfit = solver.solve(knapsack);
-            long endTime = System.nanoTime();
-
-            // write output
-            try (PrintWriter writer = new PrintWriter(new FileWriter("outp.out"))) {
-                writer.println(maxProfit);
-            }
-
-            // write time to time.out
-            long elapsedTime = endTime - startTime;
-            double seconds = (double) elapsedTime / 1_000_000_000.0;
-            timeWriter.println(seconds);
-
-        } catch (IOException e) {
-            try (PrintWriter timeWriter = new PrintWriter(new FileWriter("time.out"))) {
-                timeWriter.println("-1");
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+    public static void main(String[] args) throws FileNotFoundException {
+        // Read the problem instance from the file
+        Scanner scanner = new Scanner(new File("test.in"));
+        int n = scanner.nextInt();
+        List<Item> items = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            int id = scanner.nextInt();
+            int profit = scanner.nextInt();
+            int weight = scanner.nextInt();
+            items.add(new Item(id, profit, weight));
         }
+        int capacity = scanner.nextInt();
+        scanner.close();
+
+        // Create the knapsack and the solver
+        Knapsack knapsack = new Knapsack(capacity, items);
+        KnapsackSolver solver = new KnapsackSolver();
+
+        // Check for the trivial case
+        if (knapsack.isTrivial()) {
+            System.out.println("The problem instance is trivial. All items can be put into the knapsack.");
+        } else {
+            System.out.println("The problem instance is not trivial. Not all items can be put into the knapsack.");
+        }
+
+        // Solve the problem using different methods and print the results
+        long startTime = System.nanoTime();
+        int profit = solver.solveGreedy(knapsack);
+        long endTime = System.nanoTime();
+        System.out.println("The maximum profit using the greedy algorithm is " + profit);
+        System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
+
+        startTime = System.nanoTime();
+        profit = solver.solveRandom(knapsack);
+        endTime = System.nanoTime();
+        System.out.println("The maximum profit using a random solution is " + profit);
+        System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
+
+        startTime = System.nanoTime();
+        profit = solver.solveDynamic(knapsack);
+        endTime = System.nanoTime();
+        System.out.println("The maximum profit using dynamic programming is " + profit);
+        System.out.println("Running time: " + (endTime - startTime) / 1_000_000 + " milliseconds");
     }
 }
