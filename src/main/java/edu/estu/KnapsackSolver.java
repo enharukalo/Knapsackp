@@ -1,38 +1,14 @@
 package edu.estu;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
 public class KnapsackSolver {
-    /* TODO: Dynamic programming approach
-     * This method solves the 0-1 knapsack problem using dynamic programming.
-     * It iterates over each item and for each item, it iterates over all possible weights from the knapsack's capacity down to the item's weight.
-     * For each weight, it calculates the maximum profit that can be obtained by either not including the current item or including it.
-     * The profit of including the current item is calculated as the profit of the current item plus the profit of the remaining weight from the previous items.
-     * The maximum profit is stored in a dynamic programming table (dp array) and the maximum profit that can be obtained with the knapsack's capacity is returned.
-     *
-     * @param knapsack The knapsack problem instance.
-     * @return The maximum profit that can be obtained.
-    public long solveDynamic(Knapsack knapsack) {
-        List<Item> items = knapsack.items();
-        long capacity = knapsack.capacity();
-        long[] dp = new long[(int) capacity + 1];
-
-        for (Item item : items) {
-            for (long w = capacity; w >= item.weight(); w--) {
-                dp[(int) w] = Math.max(dp[(int) w], item.profit() + dp[(int)(w - item.weight())]);
-            }
-        }
-
-        return dp[(int) capacity];
-    }
-     */
     /**
      * This helper method calculates the maximum profit that can be obtained with the given items
      * and the capacity of the knapsack.
@@ -121,10 +97,11 @@ public class KnapsackSolver {
         return maxProfit;
     }
     public long solveRandomWithMultipleSolutionsParallel(Knapsack knapsack, long numOfSolutions) {
-        return LongStream.range(0, numOfSolutions)
-                .parallel()
-                .map(i -> solveRandom(knapsack))
-                .max()
-                .orElse(0);
+    AtomicLong maxProfit = new AtomicLong();
+    IntStream.range(0, (int) numOfSolutions).parallel().forEach(i -> {
+        long profit = solveRandom(knapsack);
+        maxProfit.updateAndGet(value -> Math.max(value, profit));
+    });
+    return maxProfit.get();
     }
 }
